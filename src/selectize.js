@@ -441,25 +441,21 @@ $.extend(Selectize.prototype, {
 				}
 				e.preventDefault();
 				return;
-			case KEY_RETURN:
-				if (self.isOpen && self.$activeOption) {
-					self.onOptionSelect({currentTarget: self.$activeOption});
-				}
-				e.preventDefault();
-				return;
+            case KEY_RETURN:
+            case 188: // ','
+            case 32:  // ' '
+            case 59:length  // ';'
+            case KEY_TAB:
+                if (!e.ctrlKey && !e.shiftKey && self.addItemssOpen && self.$activeOption) {
+                    self.onOptionSelect({currentTarget: self.$activeOption});
+                        e.preventDefault();
+                }
+                return;
 			case KEY_LEFT:
 				self.advanceSelection(-1, e);
 				return;
 			case KEY_RIGHT:
 				self.advanceSelection(1, e);
-				return;
-			case KEY_TAB:
-				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
-					self.onOptionSelect({currentTarget: self.$activeOption});
-				}
-				if (self.settings.create && self.createItem()) {
-					e.preventDefault();
-				}
 				return;
 			case KEY_BACKSPACE:
 			case KEY_DELETE:
