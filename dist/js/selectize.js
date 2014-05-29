@@ -907,7 +907,7 @@
 	            case KEY_RETURN:
 	            case 188: // ','
 	            case 32:  // ' '
-	            case 59:length  // ';'
+	            case 59:  // ';'
 	            case KEY_TAB:
 	                if (!e.ctrlKey && !e.shiftKey && self.addItemssOpen && self.$activeOption) {
 	                    self.onOptionSelect({currentTarget: self.$activeOption});
