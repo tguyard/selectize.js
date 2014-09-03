@@ -409,6 +409,14 @@ $.extend(Selectize.prototype, {
 			return;
 		}
 
+		if ($.isArray(self.settings.selectOn) &&
+				self.settings.selectOn.indexOf(e.keyCode) !== -1 &&
+				!e.ctrlKey && !e.shiftKey &&
+				self.$activeOption && self.isOpen) {
+			self.onOptionSelect({currentTarget: self.$activeOption});
+			e.preventDefault();
+			return;
+		}
 		switch (e.keyCode) {
 			case KEY_A:
 				if (self.isCmdDown) {
@@ -441,21 +449,24 @@ $.extend(Selectize.prototype, {
 				}
 				e.preventDefault();
 				return;
-            case KEY_RETURN:
-            case 188: // ','
-            case 32:  // ' '
-            case 59:  // ';'
-            case KEY_TAB:
-                if (!e.ctrlKey && !e.shiftKey && self.addItemssOpen && self.$activeOption) {
-                    self.onOptionSelect({currentTarget: self.$activeOption});
-                        e.preventDefault();
-                }
-                return;
+			case KEY_RETURN:
+				if (self.isOpen && self.$activeOption) {
+					self.onOptionSelect({currentTarget: self.$activeOption});
+				}
+				e.preventDefault();
 			case KEY_LEFT:
 				self.advanceSelection(-1, e);
 				return;
 			case KEY_RIGHT:
 				self.advanceSelection(1, e);
+				return;
+			case KEY_TAB:
+				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
+					self.onOptionSelect({currentTarget: self.$activeOption});
+				}
+				if (self.settings.create && self.createItem()) {
+					e.preventDefault();
+				}
 				return;
 			case KEY_BACKSPACE:
 			case KEY_DELETE:
@@ -599,6 +610,7 @@ $.extend(Selectize.prototype, {
 				}
 			}
 		}
+		self.close();
 	},
 
 	/**
