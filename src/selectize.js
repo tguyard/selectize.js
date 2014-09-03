@@ -470,6 +470,7 @@ $.extend(Selectize.prototype, {
 					self.onOptionSelect({currentTarget: self.$activeOption});
 				}
 				e.preventDefault();
+                break;
 			case KEY_LEFT:
 				self.advanceSelection(-1, e);
 				return;
